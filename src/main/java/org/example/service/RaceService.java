@@ -102,4 +102,18 @@ public class RaceService {
         if (top5.isEmpty()) return "N/A";
         return top5.get(0).driver().getTeam();
     }
+
+    // Aufgabe 7 (sortare desc după count)
+    public List<Map.Entry<EreignisTyp, Long>> eventTypeCountsSorted() {
+        Map<EreignisTyp, Long> counts = eventRepo.findAll().stream()
+                .collect(Collectors.groupingBy(RennenEreignis::getTyp, Collectors.counting()));
+
+        return counts.entrySet().stream()
+                .sorted((a, b) -> {
+                    int cmp = Long.compare(b.getValue(), a.getValue()); // desc count
+                    if (cmp != 0) return cmp;
+                    return a.getKey().name().compareTo(b.getKey().name());
+                })
+                .toList();
+    }
 }

@@ -40,5 +40,9 @@ public class Main {
 
         System.out.println("Aufgabe 6");
         controller.printTop5AndWinningTeam();
+
+        System.out.println("Aufgabe 7");
+        controller.writeRaceReport(Path.of("out/race_report.txt"));
+
     }
 }

@@ -75,5 +75,12 @@ public class RaceController {
         System.out.println("Winning team: " + service.winningTeamFromRanking(top5));
     }
 
+    // Aufgabe 7
+    public void writeRaceReport(Path outFile) {
+        List<String> lines = service.eventTypeCountsSorted().stream()
+                .map(e -> e.getKey() + " -> " + e.getValue())
+                .toList();
 
+        writeLines(outFile, lines);
+    }
 }
