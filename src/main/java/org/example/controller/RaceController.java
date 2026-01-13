@@ -63,4 +63,17 @@ public class RaceController {
         service.first5EventLines().forEach(System.out::println);
     }
 
+    // Aufgabe 6
+    public void printTop5AndWinningTeam() {
+        List<RaceService.DriverScore> top5 = service.top5Ranking();
+        System.out.println("Top 5 Drivers:");
+        for (int i = 0; i < top5.size(); i++) {
+            Fahrer d = top5.get(i).driver();
+            int score = top5.get(i).totalScore();
+            System.out.println((i + 1) + ". " + d.getName() + " (" + d.getTeam() + ") -> " + score);
+        }
+        System.out.println("Winning team: " + service.winningTeamFromRanking(top5));
+    }
+
+
 }

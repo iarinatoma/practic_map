@@ -38,5 +38,7 @@ public class Main {
         System.out.println("Aufgabe 5");
         controller.printFirst5ComputedEvents();
 
+        System.out.println("Aufgabe 6");
+        controller.printTop5AndWinningTeam();
     }
 }

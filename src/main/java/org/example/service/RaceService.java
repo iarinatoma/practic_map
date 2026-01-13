@@ -64,4 +64,42 @@ public class RaceService {
                 .collect(Collectors.toList());
     }
 
+    // Aufgabe 6
+    public static record DriverScore(Fahrer driver, int totalScore) {}
+
+    public List<DriverScore> top5Ranking() {
+        List<RennenEreignis> events = eventRepo.findAll();
+        List<Strafe> penalties = strafeRepo.findAll();
+        List<Fahrer> drivers = fahrerRepo.findAll();
+
+        Map<Integer, Integer> eventSum = new HashMap<>();
+        for (RennenEreignis e : events) {
+            eventSum.merge(e.getFahrerId(), computePoints(e), Integer::sum);
+        }
+
+        Map<Integer, Integer> penaltySum = new HashMap<>();
+        for (Strafe s : penalties) {
+            penaltySum.merge(s.getFahrerId(), s.getSeconds(), Integer::sum);
+        }
+
+        List<DriverScore> scored = new ArrayList<>();
+        for (Fahrer d : drivers) {
+            int total = eventSum.getOrDefault(d.getId(), 0) - penaltySum.getOrDefault(d.getId(), 0);
+            scored.add(new DriverScore(d, total));
+        }
+
+        return scored.stream()
+                .sorted((a, b) -> {
+                    int cmp = Integer.compare(b.totalScore(), a.totalScore()); // desc
+                    if (cmp != 0) return cmp;
+                    return a.driver().getName().compareTo(b.driver().getName()); // asc
+                })
+                .limit(5)
+                .toList();
+    }
+
+    public String winningTeamFromRanking(List<DriverScore> top5) {
+        if (top5.isEmpty()) return "N/A";
+        return top5.get(0).driver().getTeam();
+    }
 }
