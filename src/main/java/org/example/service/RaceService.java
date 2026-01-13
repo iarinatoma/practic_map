@@ -33,4 +33,13 @@ public class RaceService {
                 .collect(Collectors.toList());
     }
 
+    // Aufgabe 3
+    public List<Fahrer> sortDrivers(List<Fahrer> drivers) {
+        return drivers.stream()
+                .sorted(Comparator
+                        .comparingInt(Fahrer::getSkillLevel).reversed()
+                        .thenComparing(Fahrer::getName))
+                .collect(Collectors.toList());
+    }
+
 }
