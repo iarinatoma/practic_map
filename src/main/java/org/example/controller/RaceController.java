@@ -38,5 +38,24 @@ public class RaceController {
         filtered.forEach(d -> System.out.println(d.toOutputLine()));
     }
 
+    // Aufgabe 3 + 4
+    public List<Fahrer> printAndSaveSortedDrivers(Path outFile) {
+        List<Fahrer> sorted = service.sortDrivers(service.getAllDrivers());
+        sorted.forEach(d -> System.out.println(d.toOutputLine()));
+
+        List<String> lines = sorted.stream().map(Fahrer::toOutputLine).toList();
+        writeLines(outFile, lines);
+
+        return sorted;
+    }
+
+    private void writeLines(Path outFile, List<String> lines) {
+        try {
+            if (outFile.getParent() != null) Files.createDirectories(outFile.getParent());
+            Files.write(outFile, lines);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot write file: " + outFile, e);
+        }
+    }
 
 }
