@@ -25,6 +25,12 @@ public class RaceService {
     public List<RennenEreignis> getAllEvents() { return eventRepo.findAll(); }
     public List<Strafe> getAllPenalties() { return strafeRepo.findAll(); }
 
-
+    // Aufgabe 2
+    public List<Fahrer> filterActiveByTeam(String team) {
+        return fahrerRepo.findAll().stream()
+                .filter(d -> d.getStatus() == FahrerStatus.ACTIVE)
+                .filter(d -> d.getTeam() != null && d.getTeam().equals(team))
+                .collect(Collectors.toList());
+    }
 
 }

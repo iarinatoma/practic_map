@@ -29,6 +29,14 @@ public class RaceController {
         drivers.forEach(d -> System.out.println(d.toOutputLine()));
     }
 
+    // Aufgabe 2
+    public void printActiveByTeam(Scanner sc) {
+        System.out.print("Input team: ");
+        String team = sc.nextLine().trim();
+
+        List<Fahrer> filtered = service.filterActiveByTeam(team);
+        filtered.forEach(d -> System.out.println(d.toOutputLine()));
+    }
 
 
 }
