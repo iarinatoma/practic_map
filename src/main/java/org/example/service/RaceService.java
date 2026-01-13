@@ -42,4 +42,26 @@ public class RaceService {
                 .collect(Collectors.toList());
     }
 
+    // Aufgabe 5
+    public int computePoints(RennenEreignis e) {
+        int bp = e.getBasePoints();
+        int lap = e.getLap();
+
+        return switch (e.getTyp()) {
+            case OVERTAKE -> bp + 1;
+            case FASTEST_LAP -> bp + 2 * (lap % 3);
+            case TRACK_LIMITS -> bp - 5;
+            case COLLISION -> bp - 10 - lap;
+            case PIT_STOP -> (lap <= 10) ? (bp + 2) : bp;
+        };
+    }
+
+    public List<String> first5EventLines() {
+        return eventRepo.findAll().stream()
+                .limit(5)
+                .map(e -> "Event " + e.getId() + " -> raw=" + e.getBasePoints() +
+                        " -> computed=" + computePoints(e))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -58,4 +58,9 @@ public class RaceController {
         }
     }
 
+    // Aufgabe 5
+    public void printFirst5ComputedEvents() {
+        service.first5EventLines().forEach(System.out::println);
+    }
+
 }
